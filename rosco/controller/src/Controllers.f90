@@ -140,6 +140,16 @@ CONTAINS
             CALL ActiveWakeControl(CntrPar, LocalVar, DebugVar)
         ENDIF
 
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Adapted by Arnold Sterle 8th of April 2025 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! arnold.sterle@tu-berlin.de !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        IF (CntrPar%ZMQ_Mode == 1) THEN ! I don't want to add ZeroMQ pitch commands, I want them to replace any other pitch command
+            DO K = 1,LocalVar%NumBl
+                print *, "... Arnold: ZMQ_PitOffset overwriting any other pitch command ..."
+                LocalVar%PitCom(K) = LocalVar%ZMQ_PitOffset(K)
+            END DO
+        ENDIF
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         ! Place pitch actuator here, so it can be used with or without open-loop
         DO K = 1,LocalVar%NumBl ! Loop through all blades, add IPC contribution and limit pitch rate
             IF (CntrPar%PA_Mode > 0) THEN
@@ -296,6 +306,14 @@ CONTAINS
         ! Reset the value of LocalVar%VS_LastGenTrq to the current values:
         LocalVar%VS_LastGenTrq = LocalVar%GenTq
         LocalVar%VS_LastGenPwr = LocalVar%VS_GenPwr
+
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Adapted by Arnold Sterle 8th of April 2025 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! arnold.sterle@tu-berlin.de !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        IF (CntrPar%ZMQ_Mode == 1) THEN ! Override any other torque command when ZeroMQ is used
+            print *, "... Arnold: ZMQ_TorqueOffset overwriting any other torque command ..."
+            LocalVar% VS_LastGenTrq = LocalVar%ZMQ_TorqueOffset
+        ENDIF
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         ! Set the command generator torque (See Appendix A of Bladed User's Guide):
         avrSWAP(47) = MAX(0.0_DbKi, LocalVar%VS_LastGenTrq)  ! Demanded generator torque, prevent negatives.
