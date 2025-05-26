@@ -202,6 +202,9 @@ CONTAINS
                         'A wind turbine controller framework for public use in the scientific field    '//NEW_LINE('A')// &
                         'Developed in collaboration: National Renewable Energy Laboratory              '//NEW_LINE('A')// &
                         '                            Delft University of Technology, The Netherlands   '//NEW_LINE('A')// &
+			'Modified by Arnold Sterle @TU Berlin:                                         '//NEW_LINE('A')// &
+   			'ZMQ_PitOffset overwriting any other pitch command ...                         '//NEW_LINE('A')// &
+      			'ZMQ_TorqueOffset overwriting any other torque command ...                     '//NEW_LINE('A')// &
                         '------------------------------------------------------------------------------'
             ! Specifically save accINFILE info (DISCON.IN)
             LocalVar%ACC_INFILE_SIZE = NINT(avrSWAP(50))
