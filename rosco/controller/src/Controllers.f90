@@ -144,7 +144,6 @@ CONTAINS
         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! arnold.sterle@tu-berlin.de !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         IF (CntrPar%ZMQ_Mode == 1) THEN ! I don't want to add ZeroMQ pitch commands, I want them to replace any other pitch command
             DO K = 1,LocalVar%NumBl
-                print *, "... Arnold: ZMQ_PitOffset overwriting any other pitch command ..."
                 LocalVar%PitCom(K) = LocalVar%ZMQ_PitOffset(K)
             END DO
         ENDIF
@@ -310,7 +309,6 @@ CONTAINS
         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Adapted by Arnold Sterle 8th of April 2025 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! arnold.sterle@tu-berlin.de !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         IF (CntrPar%ZMQ_Mode == 1) THEN ! Override any other torque command when ZeroMQ is used
-            print *, "... Arnold: ZMQ_TorqueOffset overwriting any other torque command ..."
             LocalVar% VS_LastGenTrq = LocalVar%ZMQ_TorqueOffset
         ENDIF
         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
